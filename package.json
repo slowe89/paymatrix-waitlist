@@ -1,0 +1,15 @@
+{
+  "name": "paymatrix-waitlist",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PayMatrix Priestley demand-test interest page",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.1.5"
+  }
+}
