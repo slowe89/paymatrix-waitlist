@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PayMatrix — facilitator ship matrix for agent payments</title>
+    <meta
+      name="description"
+      content="PayMatrix probes which x402/MPP facilitators + chains + payload shapes actually verify and settle for your endpoint — then ships a fix brief for silent 402s and undocumented constraints."
+    />
+    <meta name="theme-color" content="#071018" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="PayMatrix — facilitator ship matrix for agent payments" />
+    <meta
+      property="og:description"
+      content="PayMatrix probes which x402/MPP facilitators + chains + payload shapes actually verify and settle for your endpoint — then ships a fix brief for silent 402s and undocumented constraints."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="wordmark" href="#top">Pay<span>Matrix</span></a>
+        <p class="demand-badge">Demand test</p>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap">
+          <p class="eyebrow">Facilitator ship matrix for agent payments · x402 / MPP</p>
+          <h1>Your SDK says valid. The facilitator says 402 with no reason.</h1>
+          <p class="subhead">
+            PayMatrix probes which x402/MPP facilitators + chains + payload shapes actually
+            verify and settle for your endpoint — then ships a fix brief for silent 402s and
+            undocumented constraints.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#scorecard" data-source="paymatrix-scorecard"
+              >Get your Facilitator Ship Score (free)</a
+            >
+            <a class="btn secondary" href="#waitlist" data-source="paymatrix-waitlist"
+              >Join the waitlist for a Ship pack</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="bullets" id="why">
+        <div class="wrap">
+          <ol class="bullet-grid">
+            <li>
+              <h2>Black-box facilitator matrix</h2>
+              <p>
+                We probe named facilitators, chains, and payload shapes against your live 402
+                route — so you see who actually verifies and settles, not what the SDK sample
+                claimed.
+              </p>
+            </li>
+            <li>
+              <h2>Undocumented constraint catch</h2>
+              <p>
+                Silent 402s, header-version drift, and payload rules that never made the docs.
+                The Ship pack is a fix brief, not another “try again with a different wallet”
+                thread.
+              </p>
+            </li>
+            <li>
+              <h2>Retest when facilitators churn</h2>
+              <p>
+                Facilitators, chains, and header versions move. Optional retainer re-probes the
+                matrix so last month’s green cell does not become this month’s silent 402.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="pricing" id="ranges">
+        <div class="wrap">
+          <p class="table-label">early demand-test ranges — not a cart</p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Offer</th>
+                  <th scope="col">Soft range</th>
+                  <th scope="col">What they get</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ship pack</td>
+                  <td>$1,997–$4,997</td>
+                  <td>Facilitator × chain × payload matrix + silent-402 fix brief</td>
+                </tr>
+                <tr>
+                  <td>Retest retainer</td>
+                  <td>$497–$997/mo</td>
+                  <td>Re-probe when facilitators, chains, or header versions churn</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="pricing-note">UNPROVEN — demand test. No checkout on this page.</p>
+        </div>
+      </section>
+
+      <section class="scorecard" id="scorecard">
+        <div class="wrap">
+          <div class="scorecard-head">
+            <div>
+              <p class="eyebrow">Client-side · 10 gates · Yes = 10 · No = 0</p>
+              <h2>Facilitator Ship Scorecard</h2>
+              <p class="lede">
+                Answer yes or no. Your total is 0–100. After you score, share it with the
+                Priestley form below if you want a Ship pack conversation.
+              </p>
+            </div>
+            <aside class="score-readout" aria-live="polite">
+              <p class="score-number" id="score-total">—</p>
+              <p class="score-band" id="score-band">Answer to score</p>
+              <p class="score-progress" id="score-progress">0 / 10 answered</p>
+            </aside>
+          </div>
+
+          <ol class="items" id="score-items">
+            <li data-key="q1">
+              <fieldset>
+                <legend>Live 402 route (endpoint actually returns HTTP 402)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q1" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q1" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q2">
+              <fieldset>
+                <legend>Named facilitator(s) you intend to support</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q2" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q2" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q3">
+              <fieldset>
+                <legend>Settled once (at least one real verify + settle against your route)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q3" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q3" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q4">
+              <fieldset>
+                <legend>Reject reasons logged (not just a bare 402)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q4" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q4" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q5">
+              <fieldset>
+                <legend>Payload constraints tested (shapes that verify vs. shapes that 402)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q5" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q5" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q6">
+              <fieldset>
+                <legend>Header version pinned (x402/MPP header / scheme version locked)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q6" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q6" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q7">
+              <fieldset>
+                <legend>Multi-facilitator fallback decision (who, when, and why not)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q7" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q7" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q8">
+              <fieldset>
+                <legend>Chain matrix documented (which chains actually settle for your route)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q8" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q8" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q9">
+              <fieldset>
+                <legend>Agent-buyer path exercised (wallet / agent actually paid the route)</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q9" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q9" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+            <li data-key="q10">
+              <fieldset>
+                <legend>Owner + cadence for re-probe when facilitators churn</legend>
+                <div class="yn">
+                  <label><input type="radio" name="maturity-q10" value="Y" /> Yes</label>
+                  <label><input type="radio" name="maturity-q10" value="N" /> No</label>
+                </div>
+              </fieldset>
+            </li>
+          </ol>
+
+          <p class="band-key">
+            Bands: 0–39 Blind · 40–69 Partial · 70–89 Fragile settle · 90–100 Production-ready
+          </p>
+
+          <div class="score-invite" id="score-invite" hidden>
+            <p id="score-invite-text"></p>
+            <a class="btn primary" href="#waitlist" data-source="paymatrix-scorecard"
+              >Share score + answers via the form</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="waitlist" id="waitlist">
+        <div class="wrap">
+          <p class="eyebrow">Priestley interview</p>
+          <h2>PayMatrix waitlist / score follow-up</h2>
+          <p class="lede">
+            Required: email, Q1–Q5, and a budget band. Optional facilitator / chain / endpoint
+            fields help us see whether a Ship pack is even the right shape.
+          </p>
+
+          <div class="success" id="form-success" hidden>
+            <p>
+              Got it — we’ll reply from thespencerlowe@gmail.com if you’re a fit for a Ship pack
+              or retest retainer.
+            </p>
+          </div>
+
+          <form
+            id="priestley-form"
+            class="priestley"
+            action="https://formsubmit.co/thespencerlowe@gmail.com"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" value="PayMatrix waitlist / score follow-up" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" />
+            <input type="hidden" name="source" id="meta-source" value="paymatrix-waitlist" />
+            <input type="hidden" name="score_total" id="meta-score-total" value="" />
+            <input type="hidden" name="score_vector" id="meta-score-vector" value="" />
+            <input type="hidden" name="timestamp" id="meta-timestamp" value="" />
+
+            <div class="field">
+              <label for="email">Work email <span class="req">required</span></label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="you@company.com"
+              />
+            </div>
+
+            <div class="field">
+              <label for="q1"
+                >1. What happens today when a facilitator returns 402 with no reason — or when
+                an agent buyer cannot settle against your endpoint?
+                <span class="req">required</span></label
+              >
+              <textarea
+                id="q1"
+                name="q1_what_breaks"
+                rows="4"
+                required
+                placeholder="e.g. SDK says valid, facilitator 402s; agent wallet never settles; we have not shipped a 402 route yet…"
+              ></textarea>
+            </div>
+
+            <fieldset class="field check-group">
+              <legend>
+                2. Which pieces of a facilitator ship path do you already have — or have you
+                never assembled them end-to-end?
+                <span class="req">required · multi-select</span>
+              </legend>
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Live 402 route" /> Live 402
+                route</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Named facilitator(s)" /> Named
+                facilitator(s)</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Settled once" /> Settled
+                once</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Reject reasons logged" />
+                Reject reasons logged</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Payload constraints tested" />
+                Payload constraints tested</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Header version pinned" />
+                Header version pinned</label
+              >
+              <label class="check"
+                ><input
+                  type="checkbox"
+                  name="ship_pieces"
+                  value="Multi-facilitator fallback decision"
+                />
+                Multi-facilitator fallback decision</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Chain matrix documented" />
+                Chain matrix documented</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Agent-buyer path exercised" />
+                Agent-buyer path exercised</label
+              >
+              <label class="check"
+                ><input
+                  type="checkbox"
+                  name="ship_pieces"
+                  value="Owner + cadence for re-probe"
+                />
+                Owner + cadence for re-probe</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="We have none of these" /> We
+                have none of these</label
+              >
+              <label class="check"
+                ><input type="checkbox" name="ship_pieces" value="Not sure" /> Not sure</label
+              >
+              <p class="field-error" id="ship-error" hidden>Select at least one option.</p>
+            </fieldset>
+
+            <div class="field">
+              <label for="q3"
+                >3. What have you tried so far (SDK docs, facilitator support, custom probes,
+                sample payloads), and what still failed?
+                <span class="req">required</span></label
+              >
+              <textarea
+                id="q3"
+                name="q3_what_tried"
+                rows="4"
+                required
+                placeholder="docs, Discord, a one-off curl, a wallet demo that never settled…"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="q4"
+                >4. What does a silent 402 or a failed agent settlement cost you — lost volume,
+                support time, delayed launch, or a broken buyer path?
+                <span class="req">required</span></label
+              >
+              <textarea
+                id="q4"
+                name="q4_cost"
+                rows="4"
+                required
+                placeholder="rough $ or hours is fine; “unknown but blocking launch” is fine"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="q5"
+                >5. If we handed you a facilitator × chain × payload matrix plus a fix brief in
+                ~10 business days, what would “worth it” look like for you?
+                <span class="req">required</span></label
+              >
+              <textarea
+                id="q5"
+                name="q5_worth_it"
+                rows="4"
+                required
+                placeholder="e.g. one facilitator that actually settles; documented payload constraints; a fallback decision we can ship…"
+              ></textarea>
+            </div>
+
+            <fieldset class="field radios">
+              <legend>Budget band <span class="req">required</span></legend>
+              <label class="radio"
+                ><input type="radio" name="budget_band" value="Under $500" required /> Under
+                $500</label
+              >
+              <label class="radio"
+                ><input type="radio" name="budget_band" value="$500–$1,500" /> $500–$1,500</label
+              >
+              <label class="radio"
+                ><input type="radio" name="budget_band" value="$1,500–$4,000" />
+                $1,500–$4,000</label
+              >
+              <label class="radio"
+                ><input type="radio" name="budget_band" value="$4,000+" /> $4,000+</label
+              >
+              <label class="radio"
+                ><input type="radio" name="budget_band" value="Not sure yet" /> Not sure yet</label
+              >
+            </fieldset>
+
+            <div class="optional-block">
+              <p class="optional-label">Optional context</p>
+              <div class="field">
+                <label for="facilitators">Facilitator(s)</label>
+                <input
+                  id="facilitators"
+                  name="facilitators"
+                  type="text"
+                  placeholder="e.g. named x402/MPP facilitators you intend to support"
+                />
+              </div>
+              <div class="field">
+                <label for="chains">Chain(s)</label>
+                <input
+                  id="chains"
+                  name="chains"
+                  type="text"
+                  placeholder="e.g. Base, Solana, or “not sure yet”"
+                />
+              </div>
+              <div class="field">
+                <label for="endpoint">402 endpoint URL</label>
+                <input
+                  id="endpoint"
+                  name="endpoint_url"
+                  type="url"
+                  placeholder="https://"
+                />
+              </div>
+              <div class="field">
+                <label for="retainer">Retainer interest</label>
+                <select id="retainer" name="retainer_interest">
+                  <option value="">Select…</option>
+                  <option value="Yes — re-probe when facilitators churn">
+                    Yes — re-probe when facilitators churn
+                  </option>
+                  <option value="Maybe later">Maybe later</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+
+            <p class="form-error" id="form-error" hidden></p>
+            <button class="btn primary submit" type="submit" id="submit-btn">
+              Send my score &amp; answers
+            </button>
+            <p class="form-hint">
+              Delivers to thespencerlowe@gmail.com via formsubmit.co (or Formspree if
+              configured).
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section class="audience" id="fit">
+        <div class="wrap split">
+          <div>
+            <h2>Who for</h2>
+            <p>API sellers enabling machine payments; agent-wallet builders.</p>
+          </div>
+          <div>
+            <h2>Who not</h2>
+            <p>Crypto tourists with no endpoint.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          Demand test — packaging unproven until we see budget distribution. Capture:
+          thespencerlowe@gmail.com.
+        </p>
+        <p class="privacy">
+          Answers are used only to reply about PayMatrix Ship packs and retests. We do not sell
+          or rent your details. No SOLVD branding.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
