@@ -60,5 +60,6 @@ This is a waitlist / score follow-up page only. Packaging is unproven until budg
 Browser-verified shots of the shipped page:
 
 - [docs/hero.png](docs/hero.png) — hero
-- [docs/scorecard.png](docs/scorecard.png) — Facilitator Ship Scorecard
+- [docs/scorecard.png](docs/scorecard.png) — Facilitator Ship Scorecard (score 70, Fragile settle)
 - [docs/form.png](docs/form.png) — Priestley form
+- [docs/form_success.png](docs/form_success.png) — form hidden after submit
