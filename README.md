@@ -64,4 +64,5 @@ Polish QA shots:
 - [docs/polish-qa/hero-mobile.png](docs/polish-qa/hero-mobile.png)
 - [docs/polish-qa/scorecard.png](docs/polish-qa/scorecard.png)
 - [docs/polish-qa/form-checkboxes.png](docs/polish-qa/form-checkboxes.png)
+- [docs/polish-qa/form-checkboxes-selected.png](docs/polish-qa/form-checkboxes-selected.png)
 - [docs/polish-qa/success-mock.png](docs/polish-qa/success-mock.png)
