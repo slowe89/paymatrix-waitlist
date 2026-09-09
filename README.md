@@ -1,10 +1,10 @@
 # PayMatrix
 
-Priestley demand-test interest page for **PayMatrix** — facilitator ship matrix for agent payments (x402/MPP). Outside SOLVD. Static Vite site: landing copy, client-side Facilitator Ship Scorecard, and a waitlist form. No product backend, facilitator probes, Stripe, or payments.
+Demand-test waitlist for **PayMatrix** — payment testing for agent-facing APIs (x402/MPP). Outside SOLVD. Static Vite site: landing copy, client-side Facilitator Ship Scorecard, and a waitlist form. No product backend, facilitator probes, Stripe, or payments.
 
-Capture: **thespencerlowe@gmail.com**
+Capture: **thespencerlowe@gmail.com** via FormSubmit.
 
-Meta title: `PayMatrix — facilitator ship matrix for agent payments`
+Meta title: `PayMatrix — find out why agent payments fail to settle`
 
 ## Run locally
 
@@ -48,18 +48,21 @@ Hidden fields on submit: `source` (`paymatrix-scorecard` or `paymatrix-waitlist`
 
 ## What’s on the page
 
-- Exact demand-test copy (headline, subhead, bullets, soft ranges, who / who not)
-- 10-gate Facilitator Ship Scorecard (Yes = 10, No = 0, bands 0–100: Blind / Partial / Fragile settle / Production-ready)
-- Priestley form (required email + Q1–Q5 + budget bands Under $500 / $500–$1,500 / $1,500–$4,000 / $4,000+ / Not sure yet)
+- Landing copy (headline, Ship pack benefits, who for / who not, soft ranges)
+- 10-question Facilitator Ship Scorecard (Yes = 10, No = 0; completed result /100)
+- Score bands: Baseline not established / Some checks covered / Most checks covered / Checklist largely covered
+- Waitlist form (required email + Q1–Q5 + budget bands Under $500 / $500–$1,500 / $1,500–$4,000 / $4,000+ / Not sure yet)
 - Optional facilitator / chain / endpoint fields
 
-This is a waitlist / score follow-up page only. Packaging is unproven until budget distribution is visible.
+This is a waitlist / score follow-up page only. No payment is taken here.
 
 ## Preview
 
-Browser-verified shots of the shipped page:
+Polish QA shots:
 
-- [docs/hero.png](docs/hero.png) — hero
-- [docs/scorecard.png](docs/scorecard.png) — Facilitator Ship Scorecard (score 70, Fragile settle)
-- [docs/form.png](docs/form.png) — Priestley form
-- [docs/form_success.png](docs/form_success.png) — form hidden after submit
+- [docs/polish-qa/hero-desktop.png](docs/polish-qa/hero-desktop.png)
+- [docs/polish-qa/hero-mobile.png](docs/polish-qa/hero-mobile.png)
+- [docs/polish-qa/scorecard.png](docs/polish-qa/scorecard.png)
+- [docs/polish-qa/form-checkboxes.png](docs/polish-qa/form-checkboxes.png)
+- [docs/polish-qa/form-checkboxes-selected.png](docs/polish-qa/form-checkboxes-selected.png)
+- [docs/polish-qa/success-mock.png](docs/polish-qa/success-mock.png)
