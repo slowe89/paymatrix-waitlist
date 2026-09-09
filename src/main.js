@@ -2,12 +2,14 @@ const DEFAULT_FORM_ACTION = "https://formsubmit.co/thespencerlowe@gmail.com";
 const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT || DEFAULT_FORM_ACTION;
 
 const KEYS = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"];
+const EXCLUSIVE_SHIP = new Set(["We have none of these", "Not sure"]);
+const DEFAULT_SUBMIT_LABEL = "Join the waitlist";
 
 const BANDS = [
-  { max: 39, label: "Blind" },
-  { max: 69, label: "Partial" },
-  { max: 89, label: "Fragile settle" },
-  { max: 100, label: "Production-ready" },
+  { max: 39, label: "Baseline not established" },
+  { max: 69, label: "Some checks covered" },
+  { max: 89, label: "Most checks covered" },
+  { max: 100, label: "Checklist largely covered" },
 ];
 
 const form = document.getElementById("priestley-form");
@@ -24,8 +26,17 @@ const scoreBandEl = document.getElementById("score-band");
 const scoreProgressEl = document.getElementById("score-progress");
 const scoreInvite = document.getElementById("score-invite");
 const scoreInviteText = document.getElementById("score-invite-text");
+const scoreEcho = document.getElementById("score-echo");
+const shipFieldset = form.querySelector(".check-group");
+const shipBoxes = [...form.querySelectorAll('input[name="ship_pieces"]')];
 
 form.action = FORM_ENDPOINT;
+
+let submitting = false;
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 function answers() {
   return KEYS.map((key) => {
@@ -51,25 +62,32 @@ function syncScore() {
     scoreTotalEl.textContent = "—";
     scoreBandEl.textContent = "Answer to score";
     scoreInvite.hidden = true;
+    scoreEcho.hidden = true;
     scoreTotalField.value = "";
     scoreVectorField.value = "";
     return;
   }
 
-  scoreTotalEl.textContent = String(total);
-  scoreBandEl.textContent = complete ? bandFor(total) : "Score updates as you answer";
-
   if (complete) {
+    const band = bandFor(total);
+    scoreTotalEl.textContent = `${total} / 100`;
+    scoreBandEl.textContent = band;
     scoreInvite.hidden = false;
-    scoreInviteText.textContent = `Your Facilitator Ship Score is ${total} — ${bandFor(total)}. Share this score and your answers via the Priestley form.`;
+    scoreInviteText.textContent = `Your score is ${total} / 100 — ${band}. Self-assessment; a high score does not verify that a payment will settle.`;
+    scoreEcho.hidden = false;
+    scoreEcho.textContent = `Scorecard result: ${total} / 100 — ${band}.`;
     scoreTotalField.value = String(total);
     scoreVectorField.value = vector.join("/");
     sourceField.value = "paymatrix-scorecard";
-  } else {
-    scoreInvite.hidden = true;
-    scoreTotalField.value = answered.length ? String(total) : "";
-    scoreVectorField.value = vector.map((value) => value ?? "-").join("/");
+    return;
   }
+
+  scoreTotalEl.textContent = String(total);
+  scoreBandEl.textContent = `Partial score · ${answered.length} / 10 answered`;
+  scoreInvite.hidden = true;
+  scoreEcho.hidden = true;
+  scoreTotalField.value = String(total);
+  scoreVectorField.value = vector.map((value) => value ?? "-").join("/");
 }
 
 function setSource(source) {
@@ -87,17 +105,107 @@ document.querySelectorAll("[data-source]").forEach((link) => {
 document.getElementById("score-items").addEventListener("change", syncScore);
 
 function shipSelected() {
-  return [...form.querySelectorAll('input[name="ship_pieces"]:checked')].length > 0;
+  return shipBoxes.some((box) => box.checked);
+}
+
+function clearShipError() {
+  if (!shipSelected()) return;
+  shipError.hidden = true;
+  shipFieldset?.removeAttribute("aria-invalid");
+}
+
+function showShipError() {
+  shipError.hidden = false;
+  shipFieldset?.setAttribute("aria-invalid", "true");
+  shipBoxes[0]?.focus();
+}
+
+function syncShipExclusivity(changed) {
+  if (!changed.checked) {
+    clearShipError();
+    return;
+  }
+
+  if (EXCLUSIVE_SHIP.has(changed.value)) {
+    shipBoxes.forEach((box) => {
+      if (box !== changed) box.checked = false;
+    });
+  } else {
+    shipBoxes.forEach((box) => {
+      if (EXCLUSIVE_SHIP.has(box.value)) box.checked = false;
+    });
+  }
+
+  clearShipError();
+}
+
+shipBoxes.forEach((box) => {
+  box.addEventListener("change", () => syncShipExclusivity(box));
+});
+
+function showFormError(message) {
+  formError.textContent = message;
+  formError.hidden = false;
+}
+
+function hideFormError() {
+  formError.hidden = true;
+  formError.textContent = "";
+}
+
+function setSubmitState(state) {
+  if (state === "sending") {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    return;
+  }
+  if (state === "retry") {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Try again";
+    return;
+  }
+  submitBtn.disabled = false;
+  submitBtn.textContent = DEFAULT_SUBMIT_LABEL;
+}
+
+function isConfirmedSuccess(response, body) {
+  if (!response.ok) return false;
+  if (!body || typeof body !== "object") return false;
+  const flag = body.success ?? body.ok;
+  return flag === true || flag === "true";
+}
+
+async function readResponseBody(response) {
+  const text = await response.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { raw: text };
+  }
+}
+
+function revealSuccess() {
+  form.hidden = true;
+  success.hidden = false;
+  success.focus();
+  success.scrollIntoView({
+    behavior: prefersReducedMotion() ? "auto" : "smooth",
+    block: "center",
+  });
 }
 
 form.addEventListener("submit", async (event) => {
-  formError.hidden = true;
+  event.preventDefault();
+
+  if (submitting) return;
+
+  hideFormError();
   shipError.hidden = true;
+  shipFieldset?.removeAttribute("aria-invalid");
 
   if (!shipSelected()) {
-    event.preventDefault();
-    shipError.hidden = false;
-    shipError.focus?.();
+    showShipError();
     return;
   }
 
@@ -111,12 +219,10 @@ form.addEventListener("submit", async (event) => {
     sourceField.value = "paymatrix-waitlist";
   }
 
-  event.preventDefault();
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Sending…";
+  submitting = true;
+  setSubmitState("sending");
 
   const payload = new FormData(form);
-  payload.delete("_honey");
 
   try {
     const ajaxUrl = FORM_ENDPOINT.includes("formsubmit.co/")
@@ -129,43 +235,35 @@ form.addEventListener("submit", async (event) => {
       body: payload,
     });
 
+    const body = await readResponseBody(response);
+
     if (!response.ok) {
-      throw new Error("submit_failed");
+      showFormError("We couldn't send your answers. Check your connection and try again.");
+      setSubmitState("retry");
+      formError.focus?.();
+      return;
     }
 
-    form.hidden = true;
-    success.hidden = false;
-    success.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (!isConfirmedSuccess(response, body)) {
+      showFormError("We couldn't confirm your submission. Your answers are still here — try again.");
+      setSubmitState("retry");
+      formError.focus?.();
+      return;
+    }
+
+    revealSuccess();
   } catch {
-    throwNativeSubmit(form);
+    showFormError("Network error. Your answers are still here — try again.");
+    setSubmitState("retry");
+    formError.focus?.();
   } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Send my score & answers";
+    submitting = false;
+    if (!success.hidden) {
+      setSubmitState("idle");
+    } else if (submitBtn.textContent === "Sending…") {
+      setSubmitState("retry");
+    }
   }
 });
-
-function throwNativeSubmit(target) {
-  const native = document.createElement("form");
-  native.action = FORM_ENDPOINT;
-  native.method = "POST";
-  native.style.display = "none";
-
-  for (const [name, value] of new FormData(target)) {
-    if (name === "_honey") continue;
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    native.appendChild(input);
-  }
-
-  document.body.appendChild(native);
-  native.submit();
-}
-
-if (new URLSearchParams(window.location.search).has("submitted")) {
-  form.hidden = true;
-  success.hidden = false;
-}
 
 syncScore();
