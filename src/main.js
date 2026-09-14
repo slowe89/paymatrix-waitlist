@@ -29,8 +29,13 @@ const scoreInviteText = document.getElementById("score-invite-text");
 const scoreEcho = document.getElementById("score-echo");
 const shipFieldset = form.querySelector(".check-group");
 const shipBoxes = [...form.querySelectorAll('input[name="ship_pieces"]')];
+const emailFirstForm = document.getElementById("email-first-form");
+const emailFirstSuccess = document.getElementById("email-first-success");
+const emailFirstError = document.getElementById("email-first-error");
+const emailFirstSubmit = document.getElementById("email-first-submit");
 
 form.action = FORM_ENDPOINT;
+if (emailFirstForm) emailFirstForm.action = FORM_ENDPOINT;
 
 let submitting = false;
 
@@ -185,6 +190,22 @@ async function readResponseBody(response) {
   }
 }
 
+function formSubmitAjaxUrl(action) {
+  return action.includes("formsubmit.co/")
+    ? action.replace("formsubmit.co/", "formsubmit.co/ajax/")
+    : action;
+}
+
+async function postFormSubmit(formEl) {
+  const response = await fetch(formSubmitAjaxUrl(formEl.action), {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    body: new FormData(formEl),
+  });
+  const body = await readResponseBody(response);
+  return { response, body };
+}
+
 function revealSuccess() {
   form.hidden = true;
   success.hidden = false;
@@ -222,20 +243,8 @@ form.addEventListener("submit", async (event) => {
   submitting = true;
   setSubmitState("sending");
 
-  const payload = new FormData(form);
-
   try {
-    const ajaxUrl = FORM_ENDPOINT.includes("formsubmit.co/")
-      ? FORM_ENDPOINT.replace("formsubmit.co/", "formsubmit.co/ajax/")
-      : FORM_ENDPOINT;
-
-    const response = await fetch(ajaxUrl, {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: payload,
-    });
-
-    const body = await readResponseBody(response);
+    const { response, body } = await postFormSubmit(form);
 
     if (!response.ok) {
       showFormError("We couldn't send your answers. Check your connection and try again.");
@@ -267,3 +276,83 @@ form.addEventListener("submit", async (event) => {
 });
 
 syncScore();
+
+const EMAIL_FIRST_SUBMIT_LABEL = "Send me the Ship Score";
+let emailFirstSubmitting = false;
+
+function showEmailFirstError(message) {
+  if (!emailFirstError) return;
+  emailFirstError.textContent = message;
+  emailFirstError.hidden = false;
+}
+
+function hideEmailFirstError() {
+  if (!emailFirstError) return;
+  emailFirstError.hidden = true;
+  emailFirstError.textContent = "";
+}
+
+function setEmailFirstSubmitState(state) {
+  if (!emailFirstSubmit) return;
+  if (state === "sending") {
+    emailFirstSubmit.disabled = true;
+    emailFirstSubmit.textContent = "Sending…";
+    return;
+  }
+  if (state === "retry") {
+    emailFirstSubmit.disabled = false;
+    emailFirstSubmit.textContent = "Try again";
+    return;
+  }
+  emailFirstSubmit.disabled = false;
+  emailFirstSubmit.textContent = EMAIL_FIRST_SUBMIT_LABEL;
+}
+
+function revealEmailFirstSuccess() {
+  if (!emailFirstForm || !emailFirstSuccess) return;
+  emailFirstForm.hidden = true;
+  emailFirstSuccess.hidden = false;
+  emailFirstSuccess.focus();
+}
+
+emailFirstForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (emailFirstSubmitting) return;
+
+  hideEmailFirstError();
+
+  emailFirstSubmitting = true;
+  setEmailFirstSubmitState("sending");
+
+  try {
+    const { response, body } = await postFormSubmit(emailFirstForm);
+
+    if (!response.ok) {
+      showEmailFirstError("We couldn't send your email. Check your connection and try again.");
+      setEmailFirstSubmitState("retry");
+      emailFirstError?.focus?.();
+      return;
+    }
+
+    if (!isConfirmedSuccess(response, body)) {
+      showEmailFirstError("We couldn't confirm your submission. Your email is still here — try again.");
+      setEmailFirstSubmitState("retry");
+      emailFirstError?.focus?.();
+      return;
+    }
+
+    revealEmailFirstSuccess();
+  } catch {
+    showEmailFirstError("Network error. Your email is still here — try again.");
+    setEmailFirstSubmitState("retry");
+    emailFirstError?.focus?.();
+  } finally {
+    emailFirstSubmitting = false;
+    if (emailFirstSuccess && !emailFirstSuccess.hidden) {
+      setEmailFirstSubmitState("idle");
+    } else if (emailFirstSubmit?.textContent === "Sending…") {
+      setEmailFirstSubmitState("retry");
+    }
+  }
+});

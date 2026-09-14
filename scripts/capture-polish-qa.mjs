@@ -90,24 +90,30 @@ await goto(desktop);
 await desktop.screenshot({ path: path.join(OUT, "hero-desktop.png"), fullPage: false });
 
 const heroCtaVisible = await desktop.evaluate(() => {
+  const email = document.querySelector("#hero-email");
   const cta = document.querySelector(".hero .btn.primary");
-  const r = cta.getBoundingClientRect();
-  return r.top >= 0 && r.bottom <= window.innerHeight;
+  const emailBox = email.getBoundingClientRect();
+  const ctaBox = cta.getBoundingClientRect();
+  const inFold = (r) => r.top >= 0 && r.bottom <= window.innerHeight;
+  return inFold(emailBox) && inFold(ctaBox);
 });
-log(heroCtaVisible, "Primary CTA above the fold at 1280×800");
+log(heroCtaVisible, "Email-only CTA above the fold at 1280×800");
 
 const overflowDesktop = await desktop.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
 log(!overflowDesktop, "No horizontal overflow at 1280×800");
 
-const mobile = await newPage(390, 844);
+const mobile = await newPage(375, 667);
 await goto(mobile);
 await mobile.screenshot({ path: path.join(OUT, "hero-mobile.png"), fullPage: false });
 const heroCtaMobile = await mobile.evaluate(() => {
+  const email = document.querySelector("#hero-email");
   const cta = document.querySelector(".hero .btn.primary");
-  const r = cta.getBoundingClientRect();
-  return r.top >= 0 && r.bottom <= window.innerHeight;
+  const emailBox = email.getBoundingClientRect();
+  const ctaBox = cta.getBoundingClientRect();
+  const inFold = (r) => r.top >= 0 && r.bottom <= window.innerHeight;
+  return inFold(emailBox) && inFold(ctaBox);
 });
-log(heroCtaMobile, "Primary CTA above the fold at 390×844");
+log(heroCtaMobile, "Email-only CTA above the fold at 375×667");
 const overflowMobile = await mobile.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
 log(!overflowMobile, "No horizontal overflow at 390×844");
 await mobile.close();
@@ -419,11 +425,64 @@ log(
 );
 
 const hidden = await q2Page.evaluate(() => ({
-  subject: document.querySelector('input[name="_subject"]').value,
-  honey: document.querySelector('input[name="_honey"]') != null,
+  subject: document.querySelector("#priestley-form input[name='_subject']").value,
+  honey: document.querySelector("#priestley-form input[name='_honey']") != null,
 }));
 log(hidden.subject.includes("PayMatrix"), "Site subject is present", hidden.subject);
 log(hidden.honey, "Honeypot field is present");
+
+const emailFirstMeta = await q2Page.evaluate(() => {
+  const form = document.getElementById("email-first-form");
+  const scorecard = document.getElementById("scorecard");
+  const waitlist = document.getElementById("waitlist");
+  const hero = document.getElementById("top");
+  const afterHero = (el) => hero.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING;
+  return {
+    action: form.action,
+    source: form.querySelector('input[name="source"]').value,
+    cta: form.querySelector('input[name="cta"]').value,
+    subject: form.querySelector('input[name="_subject"]').value,
+    honey: form.querySelector('input[name="_honey"]') != null,
+    requiredOnlyEmail: [...form.querySelectorAll("[required]")].every((el) => el.name === "email"),
+    scorecardPresent: Boolean(scorecard),
+    waitlistPresent: Boolean(waitlist),
+    scorecardAfterHero: afterHero(scorecard),
+    waitlistAfterScorecard: scorecard.compareDocumentPosition(waitlist) & Node.DOCUMENT_POSITION_FOLLOWING,
+    label: document.querySelector('label[for="hero-email"]')?.textContent || "",
+  };
+});
+log(
+  emailFirstMeta.action === "https://formsubmit.co/thespencerlowe@gmail.com",
+  "Email-first form still targets FormSubmit recipient",
+  emailFirstMeta.action
+);
+log(emailFirstMeta.source === "paymatrix-email-first", "Email-first source field", emailFirstMeta.source);
+log(emailFirstMeta.cta === "hero-email-only", "Email-first cta field", emailFirstMeta.cta);
+log(emailFirstMeta.subject === "PayMatrix email-first CTA", "Email-first subject", emailFirstMeta.subject);
+log(emailFirstMeta.honey, "Email-first honeypot is present");
+log(emailFirstMeta.requiredOnlyEmail, "Email-first required field is email only");
+log(/work email/i.test(emailFirstMeta.label), "Email-first work email is labeled", emailFirstMeta.label);
+log(emailFirstMeta.scorecardPresent && emailFirstMeta.scorecardAfterHero, "Scorecard remains below the hero");
+log(emailFirstMeta.waitlistPresent && emailFirstMeta.waitlistAfterScorecard, "Priestley waitlist remains below the scorecard");
+
+const emailFirstPage = await newPage(1280, 800);
+await goto(emailFirstPage);
+await interceptForm(emailFirstPage, "success");
+await emailFirstPage.type("#hero-email", "qa@example.com");
+await emailFirstPage.evaluate(() => document.getElementById("email-first-form").requestSubmit());
+await emailFirstPage.waitForFunction(() => !document.getElementById("email-first-success").hidden);
+const emailFirstOk = await emailFirstPage.evaluate(() => ({
+  formHidden: document.getElementById("email-first-form").hidden,
+  copy: document.getElementById("email-first-success").textContent,
+  priestleyVisible: !document.getElementById("priestley-form").hidden,
+}));
+log(
+  emailFirstOk.formHidden && /thespencerlowe@gmail.com/.test(emailFirstOk.copy) && /Ship Score/.test(emailFirstOk.copy),
+  "Email-first success copy names the reply address",
+  emailFirstOk.copy.trim()
+);
+log(emailFirstOk.priestleyVisible, "Priestley form stays available after hero submit");
+await emailFirstPage.close();
 
 const prices = await q2Page.evaluate(() => document.body.innerText);
 log(prices.includes("$1,997–$4,997") && prices.includes("$497–$997/mo"), "Both soft price ranges remain");

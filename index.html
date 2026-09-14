@@ -44,13 +44,68 @@
             need to support. Get a results matrix and a fix brief for rejected or unsettled
             payments.
           </p>
-          <div class="cta-row">
-            <a class="btn primary" href="#scorecard" data-source="paymatrix-scorecard"
-              >Check your payment setup — free</a
+          <div class="hero-capture">
+            <div class="success" id="email-first-success" hidden tabindex="-1">
+              <p>
+                Got it — we’ll reply from thespencerlowe@gmail.com with the Ship Score link.
+              </p>
+            </div>
+
+            <form
+              id="email-first-form"
+              class="email-first"
+              action="https://formsubmit.co/thespencerlowe@gmail.com"
+              method="POST"
             >
-            <a class="btn secondary" href="#waitlist" data-source="paymatrix-waitlist"
-              >Join the waitlist</a
-            >
+              <input type="hidden" name="_subject" value="PayMatrix email-first CTA" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              <label class="honey" for="email-first-honey" aria-hidden="true">Leave blank</label>
+              <input
+                id="email-first-honey"
+                type="text"
+                name="_honey"
+                class="honey"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <input type="hidden" name="source" value="paymatrix-email-first" />
+              <input type="hidden" name="cta" value="hero-email-only" />
+
+              <div class="email-first-row">
+                <div class="field">
+                  <label for="hero-email">Work email <span class="req">Required</span></label>
+                  <input
+                    id="hero-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    placeholder="you@company.com"
+                    aria-describedby="hero-email-hint"
+                  />
+                </div>
+                <button class="btn primary submit" type="submit" id="email-first-submit">
+                  Send me the Ship Score
+                </button>
+              </div>
+              <p class="field-hint" id="hero-email-hint">
+                Use a work address we can reply to. No payment is taken here.
+              </p>
+              <p class="form-error" id="email-first-error" hidden role="alert" tabindex="-1"></p>
+            </form>
+
+            <p class="hero-alt">
+              <a href="#scorecard" data-source="paymatrix-scorecard"
+                >Or take the Facilitator Ship Score first</a
+              >
+            </p>
+            <p class="hero-alt tertiary">
+              <a href="#waitlist" data-source="paymatrix-waitlist"
+                >Or join the waitlist with more detail</a
+              >
+            </p>
           </div>
         </div>
       </section>
