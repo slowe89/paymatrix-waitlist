@@ -44,11 +44,13 @@ VITE_FORM_ENDPOINT=https://formspree.io/f/xxxxxxxx
 
 Then rebuild. Leave it unset to keep FormSubmit → thespencerlowe@gmail.com.
 
-Hidden fields on submit: `source` (`paymatrix-scorecard` or `paymatrix-waitlist`), `score_total`, `score_vector` (Y/N), and `timestamp`.
+Hidden fields on the Priestley waitlist submit: `source` (`paymatrix-scorecard` or `paymatrix-waitlist`), `score_total`, `score_vector` (Y/N), and `timestamp`.
+
+The hero email-only form posts to the same FormSubmit address via AJAX (`source=paymatrix-email-first`, `cta=hero-email-only`). Email is the only required field.
 
 ## What’s on the page
 
-- Landing copy (headline, Ship pack benefits, who for / who not, soft ranges)
+- Landing copy (headline, email-first hero CTA, Ship pack benefits, who for / who not, soft ranges)
 - 10-question Facilitator Ship Scorecard (Yes = 10, No = 0; completed result /100)
 - Score bands: Baseline not established / Some checks covered / Most checks covered / Checklist largely covered
 - Waitlist form (required email + Q1–Q5 + budget bands Under $500 / $500–$1,500 / $1,500–$4,000 / $4,000+ / Not sure yet)
