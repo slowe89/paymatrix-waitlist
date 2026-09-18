@@ -60,6 +60,10 @@ This is a waitlist / score follow-up page only. No payment is taken here.
 
 Polish QA shots:
 
+- [docs/polish-qa/hero-settle-codes-desktop.png](docs/polish-qa/hero-settle-codes-desktop.png)
+- [docs/polish-qa/hero-settle-codes-mobile-375.png](docs/polish-qa/hero-settle-codes-mobile-375.png)
+- [docs/polish-qa/ship-pack-settle-codes.png](docs/polish-qa/ship-pack-settle-codes.png)
+- [docs/polish-qa/scorecard-settle-codes.png](docs/polish-qa/scorecard-settle-codes.png)
 - [docs/polish-qa/hero-desktop.png](docs/polish-qa/hero-desktop.png)
 - [docs/polish-qa/hero-mobile.png](docs/polish-qa/hero-mobile.png)
 - [docs/polish-qa/scorecard.png](docs/polish-qa/scorecard.png)
