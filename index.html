@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PayMatrix — find out why agent payments fail to settle</title>
+    <title>PayMatrix — name the settle failure before you ship</title>
     <meta
       name="description"
-      content="Test your payment endpoint across the facilitators, chains and request formats you need to support. Get a results matrix and a fix brief for rejected or unsettled payments."
+      content="We probe your live 402 route across facilitators, chains, and payload shapes. Each matrix cell maps to a named failure: payment_required, payment_challenge_invalid, settlement_unconfirmed, payment_header_invalid, or 402_SANS_ACCEPTS."
     />
     <meta name="theme-color" content="#071018" />
     <meta name="robots" content="index,follow" />
-    <meta property="og:title" content="PayMatrix — find out why agent payments fail to settle" />
+    <meta property="og:title" content="PayMatrix — name the settle failure before you ship" />
     <meta
       property="og:description"
-      content="Test your payment endpoint across the facilitators, chains and request formats you need to support. Get a results matrix and a fix brief for rejected or unsettled payments."
+      content="We probe your live 402 route across facilitators, chains, and payload shapes. Each matrix cell maps to a named failure: payment_required, payment_challenge_invalid, settlement_unconfirmed, payment_header_invalid, or 402_SANS_ACCEPTS."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -38,11 +38,16 @@
       <section class="hero" id="top">
         <div class="wrap">
           <p class="eyebrow">Payment testing for agent-facing APIs · x402 / MPP</p>
-          <h1>Find out why agent payments fail to settle.</h1>
+          <h1>See which settle path fails — by code, not by guess.</h1>
           <p class="subhead">
-            Test your payment endpoint across the facilitators, chains and request formats you
-            need to support. Get a results matrix and a fix brief for rejected or unsettled
-            payments.
+            We probe your live 402 route across facilitators, chains, and payload shapes. Each
+            matrix cell maps to a named failure:
+            <code>payment_required</code>,
+            <code>payment_challenge_invalid</code>,
+            <code>settlement_unconfirmed</code>,
+            <code>payment_header_invalid</code>, or
+            <code>402_SANS_ACCEPTS</code>
+            (bare 402 with no Accepts / requirements).
           </p>
           <div class="cta-row">
             <a class="btn primary" href="#scorecard" data-source="paymatrix-scorecard"
@@ -60,25 +65,25 @@
           <h2>What’s in a Ship pack</h2>
           <ol class="bullet-grid">
             <li>
-              <h3>See which payment paths work</h3>
+              <h3>One matrix cell per failure code</h3>
               <p>
-                We probe named facilitators, chains, and payload shapes against your live 402
-                route — so you see who actually verifies and settles, not what the SDK sample
-                claimed.
+                Score paths against
+                <code>payment_required</code>,
+                <code>payment_challenge_invalid</code>,
+                <code>settlement_unconfirmed</code>, and
+                <code>payment_header_invalid</code>.
               </p>
             </li>
             <li>
-              <h3>Find the cause of failed payments</h3>
+              <h3>Catch conformance defects SDK samples miss</h3>
               <p>
-                Identify rejected requests, mismatched header versions and undocumented format
-                rules. Get a short list of fixes for your endpoint.
+                <code>settle-before-serve</code> and junk payment headers marked paid.
               </p>
             </li>
             <li>
-              <h3>Retest after changes</h3>
+              <h3>Include bare-402 taxonomy</h3>
               <p>
-                Facilitators, chains, and header versions move. Optional retainer re-probes the
-                matrix so last month’s green cell does not become this month’s silent 402.
+                <code>402_SANS_ACCEPTS</code> is a first-class fail class.
               </p>
             </li>
           </ol>
@@ -89,11 +94,17 @@
         <div class="wrap split">
           <div>
             <h2>Who for</h2>
-            <p>Operators of paid APIs and agent wallets with an endpoint ready to test.</p>
+            <p>
+              Operators of paid APIs and agent wallets with an endpoint ready to test. This is a
+              seller/operator settle matrix — not a client retry-safety battery.
+            </p>
           </div>
           <div>
             <h2>Who not</h2>
-            <p>Teams still exploring payment ideas without an endpoint to test.</p>
+            <p>
+              Teams still exploring payment ideas without an endpoint to test. Not a
+              post-settlement dispute / correctness-receipt product.
+            </p>
           </div>
         </div>
       </section>
@@ -218,11 +229,11 @@
             </li>
             <li data-key="q4">
               <fieldset>
-                <legend>Reject reasons logged (not just a bare 402)</legend>
+                <legend>Accepts / payment requirements present (not a 402_SANS_ACCEPTS bare 402)</legend>
                 <div class="score-row">
                   <p class="q-text" aria-hidden="true">
                     <span class="q-num">04</span>
-                    Reject reasons logged (not just a bare 402)
+                    Accepts / payment requirements present (not a <code>402_SANS_ACCEPTS</code> bare 402)
                   </p>
                   <div class="answer-row">
                     <div class="yn">
@@ -434,7 +445,7 @@
               >
               <label class="check"
                 ><input type="checkbox" name="ship_pieces" value="Reject reasons logged" />
-                Reject reasons logged</label
+                Accepts / payment requirements present</label
               >
               <label class="check"
                 ><input type="checkbox" name="ship_pieces" value="Payload constraints tested" />

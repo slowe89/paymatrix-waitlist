@@ -4,7 +4,7 @@ Demand-test waitlist for **PayMatrix** — payment testing for agent-facing APIs
 
 Capture: **thespencerlowe@gmail.com** via FormSubmit.
 
-Meta title: `PayMatrix — find out why agent payments fail to settle`
+Meta title: `PayMatrix — name the settle failure before you ship`
 
 ## Run locally
 
@@ -48,7 +48,7 @@ Hidden fields on submit: `source` (`paymatrix-scorecard` or `paymatrix-waitlist`
 
 ## What’s on the page
 
-- Landing copy (headline, Ship pack benefits, who for / who not, soft ranges)
+- Landing copy (headline, named settle failure codes, Ship pack benefits, who for / who not, soft ranges)
 - 10-question Facilitator Ship Scorecard (Yes = 10, No = 0; completed result /100)
 - Score bands: Baseline not established / Some checks covered / Most checks covered / Checklist largely covered
 - Waitlist form (required email + Q1–Q5 + budget bands Under $500 / $500–$1,500 / $1,500–$4,000 / $4,000+ / Not sure yet)
